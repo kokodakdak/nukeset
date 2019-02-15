@@ -1,0 +1,46 @@
+#! /home/kokodak/Nuke11.3v1/libnuke-11.3.1.so -nx
+version 11.3 v1
+Gizmo {
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos -537
+  ypos -209
+ }
+ Text2 {
+  font_size_toolbar 100
+  font_width_toolbar 100
+  font_height_toolbar 100
+  message "\[metadata input/timecode]"
+  old_message {{48 50 58 50 56 58 51 54 58 48 48}
+    }
+  old_expression_markers {{0 10}
+    }
+  box {0 0 {width} {height x105 912121268}}
+  xjustify center
+  yjustify bottom
+  transforms {{0 2}
+    }
+  cursor_position 25
+  font {{ DejaVu Sans Mono : Bold : dejavu/DejaVuSansMono-Bold.ttf : 0 }}
+  global_font_scale {{width*0.0007}}
+  center {1024 778}
+  cursor_initialised true
+  autofit_bbox false
+  initial_cursor_position {{0 1556}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform/"}
+  animation_layers {{1 11 1024 778 0 0 1 1 0 0 0 0}
+    }
+  background_opacity 0.5
+  name Text1
+  xpos -537
+  ypos -160
+ }
+ Output {
+  name Output1
+  xpos -537
+  ypos -114
+ }
+end_group
