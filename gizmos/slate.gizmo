@@ -1,0 +1,210 @@
+#! /home/kokodak/Nuke11.3v1/libnuke-11.3.1.so -nx
+version 11.3 v1
+Gizmo {
+ addUserKnob {20 User}
+ addUserKnob {1 shot t "print shot name on centertop"}
+ shot FOO_0010
+ addUserKnob {1 vender t "print left top position"}
+ vender vender
+ addUserKnob {1 artist t "print Artist name on bottom left"}
+ artist kokodak
+ addUserKnob {4 task M {comp "light " rnd}}
+ addUserKnob {1 version t "print version on bottom left"}
+ version 1
+ addUserKnob {7 fontsize R 1 1}
+ fontsize 1
+ addUserKnob {1 memo t "print meno in bottom center"}
+ memo memo
+ addUserKnob {7 offset}
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos -810
+  ypos -81
+ }
+ Text2 {
+  font_size_toolbar 100
+  font_width_toolbar 100
+  font_height_toolbar 100
+  message "\[value parent.shot]"
+  old_message {{70 79 79 95 48 48 49 48}
+    }
+  old_expression_markers {{0 7}
+    }
+  box {{parent.offset} {"height - (100*global_font_scale)"} {width} {height-parent.offset}}
+  xjustify center
+  transforms {{0 2}
+    }
+  cursor_position 19
+  font {{ DejaVu Sans Mono : Bold : dejavu/DejaVuSansMono-Bold.ttf : 0 }}
+  global_font_scale {{"width *0.00032*parent.fontsize"}}
+  center {1024 778}
+  cursor_initialised true
+  autofit_bbox false
+  initial_cursor_position {{0 968}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform/"}
+  animation_layers {{1 11 1024 778 0 0 1 1 0 0 0 0}
+    }
+  enable_background true
+  background_opacity 0.5
+  background_border_x {{width}}
+  background_border_y 0
+  name topCenter
+  xpos -810
+  ypos -57
+ }
+ Text2 {
+  font_size_toolbar 100
+  font_width_toolbar 100
+  font_height_toolbar 100
+  message "\[value parent.vender]"
+  old_message {{118 101 110 100 101 114}
+    }
+  old_expression_markers {{0 5}
+    }
+  box {{parent.offset} {"height - (100*global_font_scale)"} {width} {height-parent.offset}}
+  transforms {{0 2}
+    }
+  cursor_position 21
+  font {{ DejaVu Sans Mono : Bold : dejavu/DejaVuSansMono-Bold.ttf : 0 }}
+  global_font_scale {{"width *0.00032*parent.fontsize"}}
+  center {1024 778}
+  cursor_initialised true
+  autofit_bbox false
+  initial_cursor_position {{0 968}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform/"}
+  animation_layers {{1 11 1024 778 0 0 1 1 0 0 0 0}
+    }
+  name topLeft
+  xpos -810
+  ypos -33
+ }
+ Text2 {
+  font_size_toolbar 100
+  font_width_toolbar 100
+  font_height_toolbar 100
+  message "\[date %y]\[date %m]\[date %d] \[date %T]\n"
+  old_message {{49 57 48 50 49 56 32 49 52 58 48 54 58 48 54 10}
+    }
+  old_expression_markers {{0 1 2 3 4 5 7 14}
+    }
+  box {{parent.offset} {"height - (100*global_font_scale)"} {width} {height-parent.offset}}
+  xjustify right
+  transforms {{0 2}
+    }
+  cursor_position 38
+  font {{ DejaVu Sans Mono : Bold : dejavu/DejaVuSansMono-Bold.ttf : 0 }}
+  global_font_scale {{"width *0.00032*parent.fontsize"}}
+  center {1024 778}
+  cursor_initialised true
+  autofit_bbox false
+  initial_cursor_position {{0 968}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform/"}
+  animation_layers {{1 11 1024 778 0 0 1 1 0 0 0 0}
+    }
+  name topRight
+  xpos -810
+  ypos -9
+ }
+ Text2 {
+  font_size_toolbar 100
+  font_width_toolbar 100
+  font_height_toolbar 100
+  message "\[value parent.memo]"
+  old_message {{109 101 109 111}
+    }
+  old_expression_markers {{0 3}
+    }
+  box {{parent.offset} {parent.offset} {width-parent.offset} {100*global_font_scale+parent.offset}}
+  xjustify center
+  yjustify bottom
+  transforms {{0 2}
+    }
+  cursor_position 19
+  font {{ DejaVu Sans Mono : Bold : dejavu/DejaVuSansMono-Bold.ttf : 0 }}
+  global_font_scale {{"width *0.00032*parent.fontsize"}}
+  center {1024 778}
+  cursor_initialised true
+  autofit_bbox false
+  initial_cursor_position {{0 968}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform/"}
+  animation_layers {{1 11 1024 778 0 0 1 1 0 0 0 0}
+    }
+  enable_background true
+  background_opacity 0.5
+  background_border_x {{width}}
+  background_border_y 0
+  name bottomCenter
+  xpos -810
+  ypos 15
+ }
+ Text2 {
+  font_size_toolbar 100
+  font_width_toolbar 100
+  font_height_toolbar 100
+  message "\[metadata input/timecode] \[format %06d \[frame]]\n"
+  old_message {{48 48 58 51 49 58 49 50 58 48 57 32 49 53 54 52 53 57 10}
+    }
+  old_expression_markers {{0 10 12 17}
+    }
+  box {{parent.offset} {parent.offset} {width-parent.offset} {100*global_font_scale+parent.offset}}
+  xjustify right
+  yjustify bottom
+  transforms {{0 2}
+    }
+  cursor_position 47
+  font {{ DejaVu Sans Mono : Bold : dejavu/DejaVuSansMono-Bold.ttf : 0 }}
+  global_font_scale {{"width *0.00032*parent.fontsize"}}
+  center {1024 778}
+  cursor_initialised true
+  autofit_bbox false
+  initial_cursor_position {{0 968}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform/"}
+  animation_layers {{1 11 1024 778 0 0 1 1 0 0 0 0}
+    }
+  name bottomRight
+  xpos -810
+  ypos 39
+ }
+ Text2 {
+  font_size_toolbar 100
+  font_width_toolbar 100
+  font_height_toolbar 100
+  message "\[value parent.artist] \[value parent.task] v\[format %03d \[value parent.version]]"
+  old_message {{107 111 107 111 100 97 107 32 99 111 109 112 32 118 48 48 49}
+    }
+  old_expression_markers {{0 6 8 11 14 16}
+    }
+  box {{parent.offset} {parent.offset} {width-parent.offset} {100*global_font_scale+parent.offset}}
+  yjustify bottom
+  transforms {{0 2}
+    }
+  cursor_position 79
+  font {{ DejaVu Sans Mono : Bold : dejavu/DejaVuSansMono-Bold.ttf : 0 }}
+  global_font_scale {{"width *0.00032*parent.fontsize"}}
+  center {1024 778}
+  cursor_initialised true
+  autofit_bbox false
+  initial_cursor_position {{0 968}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform/"}
+  animation_layers {{1 11 1024 778 0 0 1 1 0 0 0 0}
+    }
+  background_opacity 0
+  background_border_x 12.7
+  name bottomLeft
+  xpos -810
+  ypos 63
+ }
+ Output {
+  name Output1
+  xpos -810
+  ypos 87
+ }
+end_group
