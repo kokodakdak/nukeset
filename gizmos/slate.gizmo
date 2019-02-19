@@ -9,8 +9,7 @@ Gizmo {
  addUserKnob {1 artist t "print Artist name on bottom left"}
  artist kokodak
  addUserKnob {4 task M {comp "light " rnd}}
- addUserKnob {1 version t "print version on bottom left"}
- version 1
+ addUserKnob {3 version t "add version"}
  addUserKnob {7 fontsize R 1 1}
  fontsize 1
  addUserKnob {1 memo t "print meno in bottom center"}
@@ -87,7 +86,7 @@ Gizmo {
   font_width_toolbar 100
   font_height_toolbar 100
   message "\[date %y]\[date %m]\[date %d] \[date %T]\n"
-  old_message {{49 57 48 50 49 56 32 49 52 58 48 54 58 48 54 10}
+  old_message {{49 57 48 50 49 57 32 49 48 58 51 53 58 51 52 10}
     }
   old_expression_markers {{0 1 2 3 4 5 7 14}
     }
@@ -148,7 +147,7 @@ Gizmo {
   font_width_toolbar 100
   font_height_toolbar 100
   message "\[metadata input/timecode] \[format %06d \[frame]]\n"
-  old_message {{48 48 58 51 49 58 49 50 58 48 57 32 49 53 54 52 53 57 10}
+  old_message {{48 48 58 51 48 58 53 50 58 49 48 32 48 48 48 48 48 49 10}
     }
   old_expression_markers {{0 10 12 17}
     }
@@ -177,7 +176,7 @@ Gizmo {
   font_width_toolbar 100
   font_height_toolbar 100
   message "\[value parent.artist] \[value parent.task] v\[format %03d \[value parent.version]]"
-  old_message {{107 111 107 111 100 97 107 32 99 111 109 112 32 118 48 48 49}
+  old_message {{107 111 107 111 100 97 107 32 99 111 109 112 32 118 48 48 48}
     }
   old_expression_markers {{0 6 8 11 14 16}
     }
