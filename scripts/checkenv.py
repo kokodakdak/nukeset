@@ -9,9 +9,9 @@ from PySide2.QtWidgets import *
 뉴크 의존성도 제거할수 있다. 
 """
 class CheckEnv(QWidget):
-	layout = QVBoxLayout()
 	def __init__(self):
 		super(CheckEnv, self).__init__()
+		self.layout = QVBoxLayout()
 		self.setLayout(self.layout)
 		self.setEnv()
 
