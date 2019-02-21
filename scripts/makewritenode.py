@@ -7,7 +7,7 @@ from PySide2.QtWidgets import *
 class MakeWrite(QWidget):
 	formats = ["2048x1152","1920x1080","2048x872"]
 	exts = [".exr",".dpx",".jpg",".mov"]
-	
+
 	def __init__(self):
 		super(MakeWrite, self).__init__()
 		self.ok = QPushButton("OK")
@@ -20,105 +20,87 @@ class MakeWrite(QWidget):
 		self.reformat.setChecked(True)
 		self.slate = QCheckBox("&slate",self)
 		self.slate.setChecked(True)
+		self.addtimecode = QCheckBox("&AddTimecode",self)
+		self.addtimecode.setChecked(False)
+		self.startframe = QLineEdit(str(int(nuke.Root()["first_frame"].value())))
+		self.starttimecode = QLineEdit("00:00:00:00")
+
 		#event
 		self.ok.clicked.connect(self.bt_ok)
 		self.fm.currentIndexChanged.connect(self.indexChanged)
 		self.cancel.clicked.connect(self.close)
+
 		#set layout
 		layout = QGridLayout()
 		layout.addWidget(self.reformat, 0, 0)
 		layout.addWidget(self.fm, 0,1)
-		layout.addWidget(QLabel("master Ext"), 1, 0)
-		layout.addWidget(self.ext, 1, 1)
-		layout.addWidget(self.slate,2,0)
-		layout.addWidget(self.cancel,3,0)
-		layout.addWidget(self.ok, 3, 1)
+		layout.addWidget(self.addtimecode,1, 0)
+		layout.addWidget(self.startframe, 1, 1)
+		layout.addWidget(self.starttimecode, 1, 2)
+		layout.addWidget(self.slate, 2, 0)
+		layout.addWidget(QLabel("Ext"), 3, 0)
+		layout.addWidget(self.ext, 3, 1)
+		layout.addWidget(self.cancel, 4, 0)
+		layout.addWidget(self.ok, 4, 1)
+
+		self.linkOrder = []	
+		
 		self.setLayout(layout)
+
 
 	def indexChanged(self):
 		self.reformatSize = self.fm.currentText()
 
+
+
+	def genReformat(self):
+		reformat = nuke.nodes.Reformat()
+		reformat["type"].setValue("to box")
+		reformat["box_fixed"].setValue(True)
+		width, height = self.fm.currentText().split("x")
+		reformat["box_width"].setValue(int(width))
+		reformat["box_height"].setValue(int(height))
+		self.linkOrder.append(reformat)
+
+	def genAddTimeCode(self):
+		timecode = nuke.nodes.AddTimeCode()
+		timecode["startcode"].setValue("01:00:00:00")
+		timecode["useFrame"].setValue(True)
+		timecode["frame"].setValue(1001)
+		self.linkOrder.append(timecode)
+
+	def genSlate(self):	
+		slate = nuke.nodes.slate()
+		self.linkOrder.append(slate)
+
+
+	def genWrite(self):		
+		write = nuke.nodes.Write()
+		write["file_type"].setValue("to box")
+		write["file"].setValue("/test/test.####%s" % (self.ext.currentText()))
+		write["create_directories"].setValue(True)
+		self.linkOrder.append(write)
+
+
+
+
+
 # 이걸 어케 수정할까
 	def bt_ok(self):
-		tail = nuke.selectedNode()
 		if self.reformat.isChecked():
-			reformat = nuke.nodes.Reformat()
-			reformat["type"].setValue("to box")
-			width,height = self.fm.currentText().split("x")
-			reformat["box_width"].setValue(int(width))
-			reformat["box_height"].setValue(int(height))
-			reformat["box_fixed"].setValue(True)
-			reformat.setInput(0, tail)
-			if self.slate.isChecked():					
-				timecode = nuke.nodes.AddTimeCode()
-				timecode["startcode"].setValue("01:00:00:00")
-				timecode["useFrame"].setValue(True)
-				timecode["frame"].setValue(1001)
-				timecode.setInput(0, reformat)
-				slate = nuke.nodes.slate()
-				slate.setInput(0,timecode)
-				write = nuke.nodes.Write()
-				write["file_type"].setValue("to box")
-				write["file"].setValue("/test/test.####%s" % (self.ext.currentText()))
-				write["create_directories"].setValue(True)
-				write.setInput(0,slate)
-				return
-	
-			write = nuke.nodes.Write()
-			write["file_type"].setValue("to box")
-			write["file"].setValue("/test/test.####%s" %(self.ext.currentText()))
-			write["create_directories"].setValue(True)
-			write.setInput(0,reformat)
-			return
-
-		if self.slate.isChecked():					
-			timecode = nuke.nodes.AddTimeCode()
-			timecode["startcode"].setValue("01:00:00:00")
-			timecode["useFrame"].setValue(True)
-			timecode["frame"].setValue(1001)
-			timecode.setInput(0, tail)
-			slate = nuke.nodes.slate()
-			slate.setInput(0,timecode)
-			write = nuke.nodes.Write()
-			write["file_type"].setValue("to box")
-			write["file"].setValue("/test/test.####%s" %(self.ext.currentText()))
-			write["create_directories"].setValue(True)
-			write.setInput(0,slate)
-			return
-
-		else:
-			write = nuke.nodes.Write()
-			write["file_type"].setValue("to box")	
-			write["file"].setValue("/test/test.####%s" %(self.ext.currentText()))
-			write["create_directories"].setValue(True)
-			write.setInput(0,tail)
-			return
+			self.genReformat()
+		if self.addtimecode.isChecked():					
+			self.genAddTimeCode()
+		if self.slate.isChecked():
+			self.genSlate()
+		self.genWrite()
 
 
-
-			"""
-			timecode = nuke.nodes.AddTimeCode()
-			timecode["startcode"].setValue("01:00:00:00")
-			timecode["useFrame"].setValue(True)
-			timecode["frame"].setValue(1001)
-			timecode.setInput(0, reformat)
-			slate = nuke.nodes.slate()
-			slate.setInput(0,timecode)
-			write = nuke.nodes.Write()
-			write["file_type"].setValue("exr")
-			write["file"].setValue("/test/test.####.exr")
-			write["create_directories"].setValue(True)
-			write.setInput(0,slate)
-			"""
-
-		print self.fm.currentText()
-		print self.ext.curremtText()
-		print self.reformat.isChecked()
-		print self.slate.isChecked()
+		tail = nuke.selectedNode()
+		for n in self.linkOrder:
+			n.setInput(0,tail)
+			tail = n
 		self.close()
-
-
-
 
 
 def main():
