@@ -21,28 +21,6 @@ def browser(path):
 
 
 def main():
-	if len(node) == 0:
-		nukemessage("노드를 선택하세여")
-		return
-
-	if len(node) != 1:
-		nuke.message("노드를 하나만 선택해주세요.")
-		return
-	else:
-		node = nuke.selectedNodes()
-		path = node[0]["file"].value()
-		brws = browser(path)
-		os.system( "%s %s" %(brws, os.path.dirname(path)))
-
-
-
-
-
-
-
-
-"""
-def main():
 	forcusKnobs = ["file","vfield_file"]
 	nodes = nuke.selectedNodes()
 	if len(nodes) != 1:
@@ -62,4 +40,4 @@ def main():
 			return
 	nuke.message("file Knob을 사용하는 노드가 아닙니다.")
 
-"""
+
