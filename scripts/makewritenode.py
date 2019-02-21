@@ -64,9 +64,9 @@ class MakeWrite(QWidget):
 
 	def genAddTimeCode(self):
 		timecode = nuke.nodes.AddTimeCode()
-		timecode["startcode"].setValue("01:00:00:00")
+		timecode["startcode"].setValue(str(self.starttimecode.text())
 		timecode["useFrame"].setValue(True)
-		timecode["frame"].setValue(1001)
+		timecode["frame"].setValue(int(self.startframe.text())
 		self.linkOrder.append(timecode)
 
 	def genSlate(self):	
@@ -76,6 +76,9 @@ class MakeWrite(QWidget):
 
 	def genWrite(self):		
 		write = nuke.nodes.Write()
+		dirname, basename = os.path.split(nuke.root().name())
+		filename, notuse = os.path.splittext(basename)
+		ext = str(self.ext.currentText())
 		write["file_type"].setValue("to box")
 		write["file"].setValue("/test/test.####%s" % (self.ext.currentText()))
 		write["create_directories"].setValue(True)
