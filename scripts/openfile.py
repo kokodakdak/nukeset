@@ -12,7 +12,7 @@ def browser(path):
 		brws = "start"
 	elif sys.platform == "darwin":
 		brws = "open"
-	p = subprocess.Popen([brws, path], stdout=subprocess.PIP,stderr=subprocess.PIP)
+	p = subprocess.Popen([brws, path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 	stdout, stderr = p.communicate()
 	if stderr:
 		nuke.tprint(stderr, file=sys.stderr)
@@ -21,12 +21,12 @@ def browser(path):
 
 
 def main():
-	forcusKnobs = ["file","vfield_file"]
+	focusKnobs = ["file","vfield_file"]
 	nodes = nuke.selectedNodes()
 	if len(nodes) != 1:
 		nuke.message("노드를 하나만 선택해주세요.")
 		return
-	for knob in focusknobs:
+	for knob in focusKnobs:
 		if knob in nodes[0].knobs():
 			path = nodes[0][knob].value()
 			if path == "":
