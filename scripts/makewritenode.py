@@ -1,11 +1,12 @@
 #coding:utf8
 import nuke
-import nukescripts
+import os
+import pathapi
 from PySide2.QtWidgets import *
 
 
 class MakeWrite(QWidget):
-	formats = ["2048x1152","1920x1080","2048x872"]
+	formats = ["2048x1152","1920x1080","2048x872","2048x968"]
 	exts = [".exr",".dpx",".jpg",".mov"]
 
 	def __init__(self):
@@ -27,7 +28,6 @@ class MakeWrite(QWidget):
 
 		#event
 		self.ok.clicked.connect(self.bt_ok)
-		self.fm.currentIndexChanged.connect(self.indexChanged)
 		self.cancel.clicked.connect(self.close)
 
 		#set layout
@@ -43,15 +43,8 @@ class MakeWrite(QWidget):
 		layout.addWidget(self.cancel, 4, 0)
 		layout.addWidget(self.ok, 4, 1)
 
-		self.linkOrder = []	
-		
+		self.linkOrder = []			
 		self.setLayout(layout)
-
-
-	def indexChanged(self):
-		self.reformatSize = self.fm.currentText()
-
-
 
 	def genReformat(self):
 		reformat = nuke.nodes.Reformat()
@@ -64,20 +57,45 @@ class MakeWrite(QWidget):
 
 	def genAddTimeCode(self):
 		timecode = nuke.nodes.AddTimeCode()
-		timecode["startcode"].setValue(str(self.starttimecode.text())
+		timecode["startcode"].setValue(str(self.starttimecode.text()))
 		timecode["useFrame"].setValue(True)
-		timecode["frame"].setValue(int(self.startframe.text())
+		timecode["frame"].setValue(int(self.startframe.text()))
 		self.linkOrder.append(timecode)
 
 	def genSlate(self):	
 		slate = nuke.nodes.slate()
+		slate["vender"].setValue("Kokodak")
+		slate["user"].setValue(os.getenv("USER"))
+		nuke.tprint(ver)
+		slate["memo"].setValue(" ")
+		p = nuke.root().name()
+		seq, err = pathapi.seq(p)
+		if err:
+			nuke.tprint(err)
+		shot, err = pathapi.shot(p)
+	
+		if err:
+			nuke.tprint(err)
+		slate["shot"].setValue(seq+"_"+shot)
+		task,err = pathapi.task(p)
+
+		if err:
+			nuke.tprint(err)
+		slate["task"].setValue(task)
+		ver,err = pathapi.ver(p)
+
+
+		if err:
+			nuke.tprint(err)
+		slate["version"].setValue(ver)
 		self.linkOrder.append(slate)
+
 
 
 	def genWrite(self):		
 		write = nuke.nodes.Write()
 		dirname, basename = os.path.split(nuke.root().name())
-		filename, notuse = os.path.splittext(basename)
+		filename, notuse = os.path.splitext(basename)
 		ext = str(self.ext.currentText())
 		write["file_type"].setValue("to box")
 		write["file"].setValue("/test/test.####%s" % (self.ext.currentText()))
@@ -106,7 +124,17 @@ class MakeWrite(QWidget):
 		self.close()
 
 
+
+
 def main():
+
+	if nuke.root().name() == "Root":
+		nuke.message("파일을 저장되지않았습니다.")
+		return
+	
+	if len(nuke.selectedNodes()) != 1:
+		nuke.message("노드를 하나만 선택해주세요.")
+		return
 	if len(nuke.selectedNodes()) == 0:
 		nuke.message("노드를 선택하세요.")
 		return
