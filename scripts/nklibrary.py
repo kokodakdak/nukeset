@@ -9,6 +9,8 @@ class NkLibrary(QWidget):
 	def __init__(self):
 		super(NkLibrary,self).__init__()
 		self.libpath = os.getenv("NUKE_PATH") + "/nk/"
+		self.appname = "Nuke Library"
+		self.appversion = "v0.1"
 		#widget
 		self.nklist = QListWidget()
 		self.addNkList()
@@ -17,6 +19,7 @@ class NkLibrary(QWidget):
 		self.cancel = QPushButton("Cancel")
 
 		#layout
+		self.setWindowTitle(self.appname + self.appversion)
 		layout = QVBoxLayout()
 		layout.addWidget(self.nklist)
 		layout.addWidget(self.ok)
