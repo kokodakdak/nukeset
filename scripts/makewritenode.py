@@ -64,39 +64,11 @@ class MakeWrite(QWidget):
 
 	def genSlate(self):	
 		slate = nuke.nodes.slate()
-		slate["vender"].setValue("Kokodak")
-		slate["user"].setValue(os.getenv("USER"))
-		nuke.tprint(ver)
-		slate["memo"].setValue(" ")
-		p = nuke.root().name()
-		seq, err = pathapi.seq(p)
-		if err:
-			nuke.tprint(err)
-		shot, err = pathapi.shot(p)
-	
-		if err:
-			nuke.tprint(err)
-		slate["shot"].setValue(seq+"_"+shot)
-		task,err = pathapi.task(p)
-
-		if err:
-			nuke.tprint(err)
-		slate["task"].setValue(task)
-		ver,err = pathapi.ver(p)
-
-
-		if err:
-			nuke.tprint(err)
-		slate["version"].setValue(ver)
 		self.linkOrder.append(slate)
-
 
 
 	def genWrite(self):		
 		write = nuke.nodes.Write()
-		dirname, basename = os.path.split(nuke.root().name())
-		filename, notuse = os.path.splitext(basename)
-		ext = str(self.ext.currentText())
 		write["file_type"].setValue("to box")
 		write["file"].setValue("/test/test.####%s" % (self.ext.currentText()))
 		write["create_directories"].setValue(True)
@@ -126,12 +98,7 @@ class MakeWrite(QWidget):
 
 
 
-def main():
-
-	if nuke.root().name() == "Root":
-		nuke.message("파일을 저장되지않았습니다.")
-		return
-	
+def main():	
 	if len(nuke.selectedNodes()) != 1:
 		nuke.message("노드를 하나만 선택해주세요.")
 		return
